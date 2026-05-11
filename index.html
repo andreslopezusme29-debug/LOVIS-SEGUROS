@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lovis Seguros Asesores</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0D1135;
+    --navy-light: #131a4a;
+    --gold: #C9A84C;
+    --gold-light: #e2c47a;
+    --gold-dark: #9e7a2e;
+    --white: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Montserrat', sans-serif; background: var(--navy); color: var(--white); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 5%;
+    background: rgba(13,17,53,0.95); backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 0.9rem; text-decoration: none; }
+  .nav-logo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; letter-spacing: 0.12em; color: var(--white); }
+  .nav-logo-text span { color: var(--gold); }
+  .nav-links { display: flex; align-items: center; gap: 2.2rem; list-style: none; }
+  .nav-links a { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta { border: 1px solid var(--gold) !important; color: var(--gold) !important; padding: 0.5rem 1.4rem; }
+  .nav-cta:hover { background: var(--gold) !important; color: var(--navy) !important; }
+
+  /* HERO */
+  .hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 0 5%; overflow: hidden; }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(201,168,76,0.07) 0%, transparent 65%),
+                radial-gradient(ellipse 40% 60% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 680px; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1.8rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 30px; height: 1px; background: var(--gold); }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 300; line-height: 1.08; margin-bottom: 1.6rem;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-subtitle {
+    font-size: 0.9rem; font-weight: 300; line-height: 1.8; color: rgba(255,255,255,0.65);
+    max-width: 480px; margin-bottom: 2.8rem; opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 1.6rem; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+  .btn-primary {
+    background: var(--gold); color: var(--navy); padding: 0.9rem 2.2rem;
+    font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.3s; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(201,168,76,0.25); }
+  .btn-ghost { color: rgba(255,255,255,0.75); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; display: flex; align-items: center; gap: 0.6rem; transition: color 0.3s; }
+  .btn-ghost:hover { color: var(--gold); }
+  .hero-stats {
+    position: absolute; bottom: 4rem; right: 5%;
+    display: flex; gap: 3rem; opacity: 0; animation: fadeUp 0.8s 1s forwards;
+  }
+  .hero-stat { text-align: right; }
+  .hero-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 600; color: var(--gold); line-height: 1; }
+  .hero-stat-lbl { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-top: 0.3rem; }
+
+  /* MARQUEE */
+  .marquee { background: var(--gold); padding: 0.9rem 0; overflow: hidden; display: flex; }
+  .marquee-track { display: flex; animation: marquee 22s linear infinite; white-space: nowrap; }
+  .marquee-item { display: inline-flex; align-items: center; gap: 1.5rem; padding: 0 2rem; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--navy); }
+  .marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--navy); opacity: 0.4; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* SECTIONS */
+  section { position: relative; padding: 7rem 5%; }
+  .section-label { display: inline-flex; align-items: center; gap: 0.8rem; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 300; line-height: 1.15; margin-bottom: 1.2rem; }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* SERVICES */
+  .services-header { max-width: 560px; margin-bottom: 4rem; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(201,168,76,0.15); }
+  .service-card { background: var(--navy); padding: 2.8rem 2.2rem; position: relative; overflow: hidden; transition: background 0.4s; }
+  .service-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+  .service-card:hover { background: rgba(201,168,76,0.04); }
+  .service-card:hover::after { transform: scaleX(1); }
+  .service-icon { width: 44px; height: 44px; margin-bottom: 1.6rem; color: var(--gold); }
+  .service-num { position: absolute; top: 1.5rem; right: 1.8rem; font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: rgba(201,168,76,0.08); line-height: 1; }
+  .service-name { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 600; margin-bottom: 0.7rem; }
+  .service-desc { font-size: 0.78rem; font-weight: 300; line-height: 1.75; color: rgba(255,255,255,0.5); }
+
+  /* WHY */
+  .why { background: linear-gradient(135deg, #0a0e2e 0%, #0D1135 60%, #0f1540 100%); }
+  .why-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  .why-visual { position: relative; }
+  .why-big { font-family: 'Cormorant Garamond', serif; font-size: clamp(5rem, 10vw, 10rem); font-weight: 700; color: rgba(201,168,76,0.07); line-height: 1; }
+  .why-badge {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 210px; height: 210px; border: 1px solid rgba(201,168,76,0.3); border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    background: rgba(13,17,53,0.9);
+  }
+  .why-badge-n { font-family: 'Cormorant Garamond', serif; font-size: 3.2rem; font-weight: 600; color: var(--gold); line-height: 1; }
+  .why-badge-t { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 0.4rem; max-width: 120px; }
+  .why-list { display: flex; flex-direction: column; gap: 1.8rem; }
+  .why-item { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .why-icon { width: 42px; height: 42px; min-width: 42px; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; color: var(--gold); }
+  .why-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .why-text { font-size: 0.77rem; font-weight: 300; line-height: 1.75; color: rgba(255,255,255,0.5); }
+
+  /* PROCESS */
+  .process { background: var(--navy); }
+  .process-header { text-align: center; max-width: 540px; margin: 0 auto 4rem; }
+  .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .process-step { padding: 0 1.5rem; text-align: center; }
+  .process-num { width: 48px; height: 48px; border: 1px solid rgba(201,168,76,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--gold); margin: 0 auto 1.5rem; background: var(--navy); }
+  .process-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .process-text { font-size: 0.75rem; font-weight: 300; line-height: 1.75; color: rgba(255,255,255,0.45); }
+
+  /* CONTACT */
+  .contact { background: linear-gradient(135deg, #0a0e2e 0%, #0D1135 100%); }
+  .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .contact-slogan { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; font-style: italic; color: var(--gold); margin: 1.4rem 0 2.2rem; line-height: 1.4; }
+  .contact-details { display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-detail { display: flex; align-items: center; gap: 1rem; font-size: 0.82rem; color: rgba(255,255,255,0.65); }
+  .contact-detail-icon { width: 36px; height: 36px; min-width: 36px; border: 1px solid rgba(201,168,76,0.25); display: flex; align-items: center; justify-content: center; color: var(--gold); }
+  .contact-detail a { color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.3s; }
+  .contact-detail a:hover { color: var(--gold); }
+  .contact-form { background: rgba(255,255,255,0.02); border: 1px solid rgba(201,168,76,0.12); padding: 2.5rem; }
+  .form-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; margin-bottom: 1.8rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-label { display: block; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.45rem; }
+  .form-input, .form-select, .form-textarea { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.15); color: var(--white); padding: 0.8rem 1rem; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; outline: none; transition: border-color 0.3s; -webkit-appearance: none; }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: rgba(201,168,76,0.5); }
+  .form-select option { background: var(--navy); }
+  .form-textarea { height: 90px; resize: none; }
+  .form-submit { width: 100%; background: var(--gold); color: var(--navy); border: none; padding: 0.95rem; font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background 0.3s; margin-top: 0.5rem; }
+  .form-submit:hover { background: var(--gold-light); }
+
+  /* FOOTER */
+  footer { background: #080c24; border-top: 1px solid rgba(201,168,76,0.1); padding: 2.2rem 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); }
+  .footer-logo span { color: var(--gold); }
+  .footer-copy { font-size: 0.65rem; color: rgba(255,255,255,0.22); }
+  .footer-social { display: flex; gap: 0.8rem; }
+  .footer-social a { width: 32px; height: 32px; border: 1px solid rgba(201,168,76,0.2); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.35); transition: all 0.3s; text-decoration: none; }
+  .footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* WP FLOAT */
+  .wp-float { position: fixed; bottom: 2rem; right: 2rem; z-index: 200; width: 56px; height: 56px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); text-decoration: none; transition: transform 0.3s; animation: wpPulse 2.5s ease-in-out infinite; }
+  .wp-float:hover { transform: scale(1.08); }
+  @keyframes wpPulse { 0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); } 50% { box-shadow: 0 4px 32px rgba(37,211,102,0.65); } }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .why-inner { grid-template-columns: 1fr; }
+    .why-visual { display: none; }
+    .process-steps { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .nav-links { display: none; }
+    .hero-stats { display: none; }
+  }
+  @media (max-width: 600px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <svg width="38" height="46" viewBox="0 0 38 48" fill="none">
+      <rect x="6" y="1" width="26" height="3" fill="#C9A84C"/>
+      <rect x="10" y="6" width="3" height="5" fill="#C9A84C"/>
+      <rect x="17" y="6" width="3" height="5" fill="#C9A84C"/>
+      <rect x="24" y="6" width="3" height="5" fill="#C9A84C"/>
+      <rect x="8" y="11" width="5" height="18" fill="#C9A84C"/>
+      <rect x="18" y="11" width="3" height="13" fill="#C9A84C"/>
+      <rect x="8" y="27" width="15" height="3" fill="#C9A84C"/>
+      <rect x="10" y="32" width="3" height="5" fill="#C9A84C"/>
+      <rect x="17" y="32" width="3" height="5" fill="#C9A84C"/>
+      <rect x="24" y="32" width="3" height="5" fill="#C9A84C"/>
+      <rect x="6" y="37" width="26" height="3" fill="#C9A84C"/>
+    </svg>
+    <span class="nav-logo-text">LOVIS <span>SEGUROS</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#proceso">Proceso</a></li>
+    <li><a href="#contacto" class="nav-cta">Cotizar ahora</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Asesores en Seguros · Bogotá, Colombia</div>
+    <h1 class="hero-title">La diferencia entre<br>tener seguro<br>y <em>estar seguro</em></h1>
+    <p class="hero-subtitle">Protegemos lo que más importa. Vida, salud, vehículo, hogar, mascotas y finanzas con asesoría personalizada y cobertura real.</p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn-primary">Cotizar sin costo</a>
+      <a href="#servicios" class="btn-ghost">Ver coberturas →</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">6+</div><div class="hero-stat-lbl">Líneas de cobertura</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">24h</div><div class="hero-stat-lbl">Respuesta ágil</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">100%</div><div class="hero-stat-lbl">Personalizado</div></div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="marquee-item">Seguros de Vida<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Seguros de Vehículo<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Seguros de Hogar<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Seguros Exequiales<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Seguros de Mascotas<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Seguros de Finanzas<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Seguros de Vida<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Seguros de Vehículo<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Seguros de Hogar<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Seguros Exequiales<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Seguros de Mascotas<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Seguros de Finanzas<span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<section id="servicios">
+  <div class="services-header reveal">
+    <div class="section-label">Coberturas</div>
+    <h2 class="section-title">Todo lo que necesitas, <em>en un solo lugar</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-num">01</span>
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M24 4C24 4 8 12 8 26c0 8.837 7.163 16 16 16s16-7.163 16-16C40 12 24 4 24 4z"/><path d="M18 26l4 4 8-8"/></svg>
+      <h3 class="service-name">Seguro de Vida</h3>
+      <p class="service-desc">Protege el futuro económico de tu familia con coberturas que garantizan su bienestar en cualquier escenario.</p>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">02</span>
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M24 6 L40 14 L40 28 C40 36 32 42 24 44 C16 42 8 36 8 28 L8 14 Z"/><path d="M18 26l4 4 8-8"/></svg>
+      <h3 class="service-name">Seguro de Salud</h3>
+      <p class="service-desc">Accede a atención médica de calidad sin preocuparte por los costos. Tu salud es la inversión más importante.</p>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">03</span>
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="18" width="44" height="18" rx="5"/><circle cx="12" cy="36" r="4"/><circle cx="36" cy="36" r="4"/><path d="M4 24 L8 16 L34 16 L40 24"/></svg>
+      <h3 class="service-name">Seguro de Vehículo</h3>
+      <p class="service-desc">Cobertura completa para tu automóvil: daños, robo, responsabilidad civil y asistencia 24/7.</p>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">04</span>
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 22L24 6l18 16v20H30V30H18v12H6V22z"/></svg>
+      <h3 class="service-name">Seguro de Hogar</h3>
+      <p class="service-desc">Protege tu patrimonio contra incendios, robo, desastres naturales y responsabilidad civil del inmueble.</p>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">05</span>
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="18" r="8"/><path d="M10 40c0-8 6-14 14-14s14 6 14 14"/><path d="M36 18c3 0 6 2 6 6 0 5-6 10-6 10"/><path d="M12 18c-3 0-6 2-6 6 0 5 6 10 6 10"/></svg>
+      <h3 class="service-name">Seguro Exequial</h3>
+      <p class="service-desc">Acompaña a tu familia en los momentos más difíciles con cobertura integral de servicios funerarios.</p>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">06</span>
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="24" cy="22" rx="7" ry="9"/><path d="M14 36c0-4 4-8 10-10 6 2 10 6 10 10"/><circle cx="38" cy="16" r="4"/><path d="M38 20v8"/></svg>
+      <h3 class="service-name">Seguro de Mascotas</h3>
+      <p class="service-desc">Tu mascota merece la mejor atención. Cubre veterinario, cirugías y accidentes con planes a tu medida.</p>
+    </div>
+  </div>
+</section>
+
+<section class="why" id="nosotros">
+  <div class="why-inner">
+    <div class="why-visual reveal">
+      <div class="why-big">LOVIS</div>
+      <div class="why-badge">
+        <div class="why-badge-n">100%</div>
+        <div class="why-badge-t">Asesoría personalizada y sin costo</div>
+      </div>
+    </div>
+    <div class="why-list">
+      <div class="section-label reveal">¿Por qué Lovis?</div>
+      <h2 class="section-title reveal">Tu tranquilidad es <em>nuestro negocio</em></h2>
+      <div class="why-item reveal">
+        <div class="why-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17 5.8 21.3l2.4-7.4L2 9.4h7.6L12 2z"/></svg></div>
+        <div><div class="why-title">Asesoría Independiente</div><p class="why-text">No trabajamos para una sola aseguradora. Comparamos el mercado y te recomendamos la mejor opción para tu perfil y presupuesto.</p></div>
+      </div>
+      <div class="why-item reveal">
+        <div class="why-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div><div class="why-title">Respuesta Ágil</div><p class="why-text">Cotizaciones en menos de 24 horas. Gestión de siniestros directa y sin papeleo innecesario.</p></div>
+      </div>
+      <div class="why-item reveal">
+        <div class="why-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div><div class="why-title">Trato Personalizado</div><p class="why-text">Diseñamos coberturas que se adaptan a tu realidad, no paquetes genéricos.</p></div>
+      </div>
+      <div class="why-item reveal">
+        <div class="why-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><div class="why-title">Confianza y Transparencia</div><p class="why-text">Explicamos cada póliza en lenguaje claro. Sin letra pequeña que te sorprenda cuando más necesites tu seguro.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proceso">
+  <div class="process-header reveal">
+    <div class="section-label">Cómo funciona</div>
+    <h2 class="section-title">Simple, rápido y <em>transparente</em></h2>
+  </div>
+  <div class="process-steps">
+    <div class="process-step reveal"><div class="process-num">1</div><div class="process-title">Contacto inicial</div><p class="process-text">Nos cuentas qué quieres proteger y tu presupuesto. Sin compromisos.</p></div>
+    <div class="process-step reveal"><div class="process-num">2</div><div class="process-title">Análisis de perfil</div><p class="process-text">Estudiamos tu caso y comparamos las mejores opciones del mercado.</p></div>
+    <div class="process-step reveal"><div class="process-num">3</div><div class="process-title">Cotización clara</div><p class="process-text">Recibes una propuesta detallada, sin tecnicismos ni letra pequeña.</p></div>
+    <div class="process-step reveal"><div class="process-num">4</div><div class="process-title">Activación y seguimiento</div><p class="process-text">Vinculamos tu póliza y te acompañamos en renovaciones y siniestros.</p></div>
+  </div>
+</section>
+
+<section class="contact" id="contacto">
+  <div class="contact-inner">
+    <div class="reveal">
+      <div class="section-label">Contacto</div>
+      <h2 class="section-title">Hablemos de<br><em>tu protección</em></h2>
+      <p class="contact-slogan">"La diferencia entre tener seguro y estar seguro"</p>
+      <div class="contact-details">
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+          <div><a href="tel:+573142808222">(+57) 314 2808222</a><br><a href="tel:+573057135057">(+57) 305 7135057</a></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <a href="mailto:a.lopezlovis@gmail.com">a.lopezlovis@gmail.com</a>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+          <a href="https://instagram.com/lovis.seguros" target="_blank">@lovis.seguros</a>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          Bogotá, Colombia
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-title">Solicitar cotización</div>
+      <div class="form-group"><label class="form-label">Nombre completo</label><input type="text" id="f-name" class="form-input" placeholder="Tu nombre"></div>
+      <div class="form-group"><label class="form-label">Teléfono / WhatsApp</label><input type="tel" id="f-phone" class="form-input" placeholder="+57 300 000 0000"></div>
+      <div class="form-group"><label class="form-label">Tipo de seguro</label>
+        <select id="f-type" class="form-select">
+          <option value="">Selecciona una cobertura</option>
+          <option>Seguro de Vida</option><option>Seguro de Salud</option>
+          <option>Seguro de Vehículo</option><option>Seguro de Hogar</option>
+          <option>Seguro Exequial</option><option>Seguro de Mascotas</option>
+          <option>Seguros de Finanzas</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Mensaje (opcional)</label><textarea id="f-msg" class="form-textarea" placeholder="Cuéntanos qué necesitas proteger..."></textarea></div>
+      <button class="form-submit" onclick="sendWA()">Enviar por WhatsApp →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">LOVIS <span>SEGUROS</span> · Asesores</div>
+  <div class="footer-copy">© 2025 Lovis Seguros Asesores · Bogotá, Colombia</div>
+  <div class="footer-social">
+    <a href="https://instagram.com/lovis.seguros" target="_blank" title="Instagram">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
+    <a href="https://wa.me/573142808222" target="_blank" title="WhatsApp">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+    </a>
+  </div>
+</footer>
+
+<a href="https://wa.me/573142808222?text=Hola%20Lovis%20Seguros%2C%20quiero%20informaci%C3%B3n%20sobre%20coberturas" target="_blank" class="wp-float" title="Chatea con nosotros">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 70); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+
+  function sendWA() {
+    const n = document.getElementById('f-name').value || 'sin nombre';
+    const p = document.getElementById('f-phone').value || 'no indicado';
+    const t = document.getElementById('f-type').value || 'no especificado';
+    const m = document.getElementById('f-msg').value || '';
+    const txt = `Hola Lovis Seguros! Quisiera una cotización.\nNombre: ${n}\nTeléfono: ${p}\nTipo de seguro: ${t}\nMensaje: ${m}`;
+    window.open(`https://wa.me/573142808222?text=${encodeURIComponent(txt)}`, '_blank');
+  }
+</script>
+</body>
+</html>
